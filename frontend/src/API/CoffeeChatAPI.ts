@@ -126,6 +126,14 @@ export default class CoffeeChatAPI {
     await APIWrapper.put(`${backendURL}/coffee-chat-categories/${index}/members`, { members });
   }
 
+  public static async renameCategory(index: number, name: string): Promise<CoffeeChatCategory> {
+    const res = await APIWrapper.put(`${backendURL}/coffee-chat-categories/${index}/name`, {
+      name
+    });
+    if (res.data?.error) throw new Error(res.data.error);
+    return res.data.category as CoffeeChatCategory;
+  }
+
   public static async uploadCoffeeChatCSV(csv: string): Promise<void> {
     await APIWrapper.post(`${backendURL}/coffee-chat-categories/upload`, { csv });
   }

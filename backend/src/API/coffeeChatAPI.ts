@@ -221,6 +221,31 @@ export const updateCategoryMembers = async (
 };
 
 /**
+ * Renames a coffee chat category! Chats already filed under the old name are rewritten.
+ * @param index - the index of the category to rename
+ * @param name - the new category name
+ * @param user - the user making the request
+ * @returns the renamed category
+ */
+export const renameCoffeeChatCategory = async (
+  index: number,
+  name: unknown,
+  user: IdolMember
+): Promise<CoffeeChatCategory> => {
+  const isLeadOrAdmin = await PermissionsManager.isLeadOrAdmin(user);
+  if (!isLeadOrAdmin) {
+    throw new PermissionError(
+      `User with email ${user.email} does not have permission to update coffee chat categories.`
+    );
+  }
+  if (!Number.isInteger(index) || index < 0) {
+    throw new BadRequestError('Category index is invalid.');
+  }
+  if (typeof name !== 'string') throw new BadRequestError('Category name is required.');
+  return CoffeeChatDao.renameCategory(index, name);
+};
+
+/**
  * Gets the category names that currently list the member.
  * @param user - the member making the request
  * @returns category names they fit, or an empty list if they are on none
