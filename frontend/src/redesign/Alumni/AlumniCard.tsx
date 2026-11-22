@@ -134,3 +134,34 @@ export default function AlumniCard({ alum }: { readonly alum: Alumni }): JSX.Ele
     </Card>
   );
 }
+
+/** Mirrors AlumniCard while alumni load: photo, name and role, links, then the five facts. */
+export function AlumniCardSkeleton(): JSX.Element {
+  return (
+    <Card layered direction="row" className={styles.alumCard} aria-hidden="true">
+      <div className={styles.alumPhoto}>
+        <span className="idol-skeleton" />
+      </div>
+      <div className={styles.alumDetails}>
+        <div className={styles.alumHeading}>
+          <div className={styles.skeletonCopy}>
+            <span className={`${styles.skeletonName} idol-skeleton`} />
+            <span className={`${styles.skeletonRole} idol-skeleton`} />
+          </div>
+          <div className={styles.skeletonLinks}>
+            <span className={`${styles.skeletonAction} idol-skeleton`} />
+            <span className={`${styles.skeletonAction} idol-skeleton`} />
+          </div>
+        </div>
+        <div className={styles.facts}>
+          {[0, 1, 2, 3, 4].map((key) => (
+            <div key={key} className={styles.skeletonCopy}>
+              <span className={`${styles.skeletonLabel} idol-skeleton`} />
+              <span className={`${styles.skeletonValue} idol-skeleton`} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </Card>
+  );
+}

@@ -278,10 +278,44 @@
   padding: 0;
   list-style: none;
 }
-.cardSkeleton {
-  min-height: 150px;
-  border: 1px solid var(--idol-stroke-black);
-  border-radius: 16px;
+.skeletonCopy {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  min-width: 0;
+}
+.skeletonLinks {
+  display: flex;
+  flex-shrink: 0;
+  gap: 4px;
+}
+.skeletonName,
+.skeletonRole,
+.skeletonLabel,
+.skeletonValue,
+.skeletonAction {
+  display: block;
+  height: 14px;
+  border-radius: 4px;
+}
+.skeletonName {
+  width: min(40vw, 160px);
+  height: 18px;
+}
+.skeletonRole {
+  width: min(50vw, 220px);
+}
+.skeletonLabel {
+  width: 56px;
+  height: 12px;
+}
+.skeletonValue {
+  width: min(75%, 96px);
+}
+.skeletonAction {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
 }
 .showMore {
   align-self: center;

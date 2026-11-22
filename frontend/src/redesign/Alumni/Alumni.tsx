@@ -21,7 +21,7 @@ import {
 } from '../../design-system-2026/icons';
 import AlumniAPI from '../../API/AlumniAPI';
 import CityCoordinatesAPI from '../../API/CityCoordinatesAPI';
-import AlumniCard from './AlumniCard';
+import AlumniCard, { AlumniCardSkeleton } from './AlumniCard';
 import AlumniFilterFields from './AlumniFilterFields';
 import cityKey from './cityKey';
 import {
@@ -142,7 +142,7 @@ export default function Alumni(): JSX.Element {
       return (
         <div className={styles.cardList} role="status" aria-label="Loading alumni">
           {[0, 1, 2].map((key) => (
-            <div key={key} className={`${styles.cardSkeleton} idol-skeleton`} aria-hidden="true" />
+            <AlumniCardSkeleton key={key} />
           ))}
         </div>
       );
