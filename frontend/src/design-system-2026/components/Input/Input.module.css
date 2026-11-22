@@ -1,6 +1,15 @@
 .disabled {
   cursor: not-allowed;
   opacity: 0.5;
+  user-select: none;
+}
+/* A disabled value can't be edited, so don't paint a selection highlight on it. Chrome ignores
+   user-select inside inputs, hence the transparent ::selection too. */
+.disabled :disabled {
+  user-select: none;
+}
+.disabled :disabled::selection {
+  background: transparent;
 }
 
 .iconSlot {
