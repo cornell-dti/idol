@@ -11,6 +11,9 @@ import CoffeeChatsDashboard from './CoffeeChatsDashboard';
 import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 
+// Stable reference so effects that depend on the board don't re-run every render.
+const EMPTY_BOARD: string[][] = [[]];
+
 const CoffeeChatsForm: React.FC = () => {
   const userInfo = useSelf()!;
   const [busy, setBusy] = useState(false);
@@ -25,7 +28,9 @@ const CoffeeChatsForm: React.FC = () => {
   const [archivedChats, setArchivedChats] = useState<CoffeeChat[]>([]);
   const [isChatLoading, setIsChatLoading] = useState<boolean>(true);
   const [slackLink, setSlackLink] = useState<string>('');
-  const [bingoBoard, setBingoBoard] = useState<string[][]>([[]]);
+  // null until the board loads, so the bingo board shows a skeleton instead of an empty state.
+  const [board, setBingoBoard] = useState<string[][] | null>(null);
+  const bingoBoard = board ?? EMPTY_BOARD;
   const [memberMeetsCategory, setMemberMeetsCategory] =
     useState<MemberMeetsCategoryStatus>('no data');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -219,6 +224,29 @@ const CoffeeChatsForm: React.FC = () => {
     }
   };
 
+  const selectSuggestion = (netid: string, suggestedCategory: string): (() => void) | null => {
+    const key = netid.trim().toLowerCase();
+    const next = membersList.find((person) => person.netid.trim().toLowerCase() === key);
+    if (!next) {
+      Emitters.generalError.emit({
+        headerMsg: 'Member not found',
+        contentMsg: 'Could not find this member. Please select them in the form instead.'
+      });
+      return null;
+    }
+    setIsNonIDOLMember(false);
+    setMember(next);
+    setCategory(suggestedCategory);
+    return () => {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document
+        .getElementById('coffee-chat-submit')
+        ?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      // The Slack link is the only field left to fill.
+      document.getElementById('coffee-slack')?.focus({ preventScroll: true });
+    };
+  };
+
   const memberLabel = (person: IdolMember) =>
     `${person.firstName} ${person.lastName} (${person.netid})${
       netIdsAlreadyChatted.has(person.netid.trim().toLowerCase()) ? ' · Previously chatted' : ''
@@ -237,7 +265,7 @@ const CoffeeChatsForm: React.FC = () => {
           </Button>
         </Card>
       )}
-      <Card header="Submit coffee chats">
+      <Card id="coffee-chat-submit" className={styles.submitCard} header="Submit coffee chats">
         <form
           className={styles.form}
           onSubmit={async (event) => {
@@ -387,12 +415,13 @@ const CoffeeChatsForm: React.FC = () => {
         pendingChats={pendingChats}
         rejectedChats={rejectedChats}
         archivedChats={archivedChats}
-        isChatLoading={isChatLoading}
+        isChatLoading={(isChatLoading || !board) && !loadError}
         setPendingChats={setPendingChats}
         setApprovedChats={setApprovedChats}
         bingoBoard={bingoBoard}
         resetState={resetState}
         userInfo={userInfo}
+        onSelectSuggestion={selectSuggestion}
       />
     </div>
   );
