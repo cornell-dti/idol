@@ -14,6 +14,10 @@ type Drag = {
   startY: number;
   origin: 'grid' | 'navbar';
   slot: number | null;
+  /** Where the page would land in the drawer grid, as an index into its visible pages. */
+  gridSlot: number | null;
+  /** The pointer is at the end of a row, so the marker shows after the previous page. */
+  gridRowEnd: boolean;
   remove: boolean;
   moved: boolean;
 };
@@ -21,6 +25,7 @@ type Drag = {
 export default function NavigationEditor({
   items,
   selected,
+  order: initialOrder,
   onSave,
   onCancel,
   onDraftChange,
@@ -29,19 +34,26 @@ export default function NavigationEditor({
 }: {
   items: SidebarEntry[];
   selected: string[];
-  onSave: (ids: string[]) => void;
+  /** Every page's id in drawer order; pages in the navbar are skipped when the drawer renders. */
+  order: string[];
+  onSave: (ids: string[], order: string[]) => void;
   onCancel: () => void;
   /** Reports every draft change, so closing the sheet mid-edit can save it. */
-  onDraftChange?: (ids: string[]) => void;
+  onDraftChange?: (ids: string[], order: string[]) => void;
   /** Where Cancel/Save render (the sheet header's top-right); inline when absent. */
   actionsSlot?: HTMLElement | null;
   /** The real bottom bar: editing happens on it directly instead of on a preview copy. */
   navbarSlot?: HTMLElement | null;
 }): JSX.Element {
   const [draft, setDraft] = useState(selected);
+  const [order, setOrder] = useState(initialOrder);
   useEffect(() => {
-    onDraftChange?.(draft);
-  }, [draft, onDraftChange]);
+    onDraftChange?.(draft, order);
+  }, [draft, order, onDraftChange]);
+  const gridPages = order
+    .filter((id) => !draft.includes(id))
+    .map((id) => items.find((item) => item.id === id))
+    .filter((item): item is SidebarEntry => Boolean(item));
   const [announcement, setAnnouncement] = useState('');
   const grid = useRef<HTMLDivElement>(null);
   const navbar = useRef<HTMLDivElement>(null);
@@ -76,9 +88,26 @@ export default function NavigationEditor({
     target?.focus();
   }, [draft]);
   const label = (id: string) => items.find((item) => item.id === id)?.label;
-  const remove = (id: string) => {
+  /** Moves `id` to just before `before` in the drawer order (to the end when null). */
+  const place = (id: string, before: string | null) => {
+    if (before === id) return;
+    const next = order.filter((item) => item !== id);
+    next.splice(before === null ? next.length : next.indexOf(before), 0, id);
+    setOrder(next);
+  };
+  const remove = (id: string, before?: string | null) => {
     setDraft(draft.filter((item) => item !== id));
+    if (before !== undefined) place(id, before);
     setAnnouncement(`${label(id)} removed from navbar.`);
+  };
+  /** Moves a drawer page to `target`, an index into the drawer's visible pages. */
+  const moveInGrid = (id: string, target: number) => {
+    const visible = gridPages.map((item) => item.id);
+    const from = visible.indexOf(id);
+    if (from < 0 || target < 0 || target >= visible.length || target === from) return;
+    // Land on `target`: before the page there when moving back, after it when moving forward.
+    place(id, target < from ? visible[target] : visible[target + 1] ?? null);
+    setAnnouncement(`${label(id)} moved to position ${target + 1} in the drawer.`);
   };
   const add = (id: string, slot = draft.length) => {
     if (draft.length >= maxPinnedPages) {
@@ -109,6 +138,8 @@ export default function NavigationEditor({
       startX: event.clientX,
       startY: event.clientY,
       slot: null,
+      gridSlot: null,
+      gridRowEnd: false,
       remove: false,
       moved: false
     });
@@ -138,6 +169,25 @@ export default function NavigationEditor({
       );
       slot = next < 0 ? draft.length : next;
     }
+    let gridSlot: number | null = null;
+    let gridRowEnd = false;
+    if (slot === null && contains(grid.current, 8)) {
+      // Reading order: the first page the pointer sits before (an earlier row, or left of its
+      // centre in the same row) is where the dragged page lands.
+      const next = Array.from(grid.current.querySelectorAll('[data-grid-item]')).findIndex(
+        (item) => {
+          const rect = item.getBoundingClientRect();
+          return (
+            event.clientY < rect.top ||
+            (event.clientY <= rect.bottom && event.clientX < rect.left + rect.width / 2)
+          );
+        }
+      );
+      gridSlot = next < 0 ? gridPages.length : next;
+      const landing = grid.current.querySelectorAll('[data-grid-item]')[gridSlot];
+      gridRowEnd =
+        gridSlot > 0 && (!landing || event.clientY < landing.getBoundingClientRect().top);
+    }
     const moved =
       current.moved ||
       Math.hypot(event.clientX - current.startX, event.clientY - current.startY) > 6;
@@ -146,16 +196,27 @@ export default function NavigationEditor({
       x: event.clientX,
       y: event.clientY,
       slot,
+      gridSlot,
+      gridRowEnd,
       moved,
-      remove: current.origin === 'navbar' && contains(grid.current)
+      remove: current.origin === 'navbar' && gridSlot !== null
     });
   };
   const finish = () => {
     const { current } = dragRef;
     suppressClick.current = Boolean(current?.moved);
     if (current?.moved) {
-      if (current.remove) remove(current.id);
-      else if (current.slot !== null) {
+      const before = current.gridSlot === null ? null : gridPages[current.gridSlot]?.id ?? null;
+      if (current.remove) remove(current.id, before);
+      else if (current.origin === 'grid' && current.gridSlot !== null) {
+        if (before !== current.id) {
+          place(current.id, before);
+          const visible = gridPages.filter((item) => item.id !== current.id);
+          const index =
+            before === null ? visible.length : visible.findIndex((item) => item.id === before);
+          setAnnouncement(`${label(current.id)} moved to position ${index + 1} in the drawer.`);
+        }
+      } else if (current.slot !== null) {
         if (current.origin === 'grid') add(current.id, current.slot);
         else
           move(
@@ -258,7 +319,7 @@ export default function NavigationEditor({
       <Button
         disabled={draft.length < 2 || draft.length > maxPinnedPages}
         icon={<CheckIcon size={16} />}
-        onClick={() => onSave(draft)}
+        onClick={() => onSave(draft, order)}
       >
         Save
       </Button>
@@ -272,9 +333,10 @@ export default function NavigationEditor({
         {statusMessage || '\u00a0'}
       </p>
       <p id="navbar-reorder-help" className={styles.srOnly}>
-        Drag a page into the navbar or drag it back into this grid to remove it. You can also tap to
-        add, use the remove buttons, and use left and right arrow keys to reorder. Home and More
-        stay fixed. Choose two or three pages.
+        Drag a page into the navbar or drag it back into this grid to remove it, and drag pages
+        within this grid to reorder the drawer. You can also tap to add, use the remove buttons, and
+        use left and right arrow keys to reorder. Home and More stay fixed. Choose two or three
+        pages.
       </p>
       {/* Animates to the grid's height, so the sheet slides when a row empties or fills. */}
       <div className={styles.gridWrap} style={{ height: gridHeight }}>
@@ -286,15 +348,23 @@ export default function NavigationEditor({
           role="group"
           aria-label="Available pages"
         >
-          {items
-            .filter((item) => !draft.includes(item.id))
-            .map((item) => (
+          {gridPages.map((item, index) => {
+            const marker = (() => {
+              if (!drag?.moved || drag.gridSlot === null) return '';
+              // Dropping a drawer page next to itself changes nothing, so don't mark it.
+              const own = gridPages.findIndex((page) => page.id === drag.id);
+              if (own >= 0 && (drag.gridSlot === own || drag.gridSlot === own + 1)) return '';
+              if (drag.gridRowEnd) return drag.gridSlot === index + 1 ? styles.insertAfter : '';
+              return drag.gridSlot === index ? styles.insertBefore : '';
+            })();
+            return (
               <button
                 type="button"
                 key={item.id}
+                data-grid-item
                 className={`${styles.page} ${styles.draggablePage} ${
                   drag?.id === item.id ? styles.grabbedItem : ''
-                }`}
+                } ${marker}`}
                 aria-label={`Add ${item.label}`}
                 aria-describedby="navbar-reorder-help"
                 {...handlers(item.id, 'grid')}
@@ -302,13 +372,25 @@ export default function NavigationEditor({
                   if (!suppressClick.current) add(item.id);
                   suppressClick.current = false;
                 }}
+                onKeyDown={(event) => {
+                  if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+                    event.preventDefault();
+                    moveInGrid(item.id, index + (event.key === 'ArrowLeft' ? -1 : 1));
+                  }
+                  if (event.key === 'Escape' && dragRef.current) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    updateDrag(null);
+                  }
+                }}
               >
                 <span className={styles.pageIcon} aria-hidden>
                   {item.icon}
                 </span>
                 <span>{item.label}</span>
               </button>
-            ))}
+            );
+          })}
         </div>
       </div>
       <p className={styles.srOnly} role="status">

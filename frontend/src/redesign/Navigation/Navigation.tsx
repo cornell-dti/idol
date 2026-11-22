@@ -8,6 +8,8 @@ import { PencilSimpleLineIcon, DotsThreeIcon } from '../../design-system-2026/ic
 import NavigationEditor from './NavigationEditor';
 import {
   defaultNavigation,
+  drawerOrderKey,
+  parseDrawerOrder,
   parseNavigation,
   compactNavigationLabel,
   maxPinnedPages
@@ -37,15 +39,16 @@ export default function Navigation({
 }): JSX.Element {
   const { theme, accent } = useDesignSystemAppearance();
   const [selected, setSelected] = useState(defaultNavigation);
+  const [savedOrder, setSavedOrder] = useState<unknown>(null);
   const [ready, setReady] = useState(false);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(false);
   const toast = useToast();
   const [notice, setNotice] = useState('');
   // The editor's latest draft; closing the sheet while editing saves it.
-  const draftRef = useRef<string[] | null>(null);
-  const trackDraft = useCallback((ids: string[]) => {
-    draftRef.current = ids;
+  const draftRef = useRef<{ ids: string[]; order: string[] } | null>(null);
+  const trackDraft = useCallback((ids: string[], order: string[]) => {
+    draftRef.current = { ids, order };
   }, []);
   // The sheet opens above the bottom bar, so the real navbar stays visible underneath it.
   const bar = useRef<HTMLDivElement>(null);
@@ -88,6 +91,7 @@ export default function Navigation({
   const allowed = available.map((item) => item.id);
   // Reconcile late-loading permissions without overwriting stored selections.
   const pinned = parseNavigation(JSON.stringify(selected), allowed);
+  const drawerOrder = parseDrawerOrder(savedOrder, allowed);
   useEffect(() => {
     try {
       const stored: unknown = storageKey
@@ -101,6 +105,13 @@ export default function Navigation({
     } catch {
       setSelected(defaultNavigation);
     }
+    try {
+      setSavedOrder(
+        storageKey ? JSON.parse(localStorage.getItem(drawerOrderKey(storageKey)) ?? 'null') : null
+      );
+    } catch {
+      setSavedOrder(null);
+    }
     setReady(true);
   }, [storageKey]);
   useEffect(() => {
@@ -110,7 +121,10 @@ export default function Navigation({
   const links = [home, ...pinned.map((id) => items.find((item) => item.id === id))].filter(
     (item): item is SidebarEntry => Boolean(item)
   );
-  const moreItems = available.filter((item) => !pinned.includes(item.id));
+  const moreItems = drawerOrder
+    .filter((id) => !pinned.includes(id))
+    .map((id) => available.find((item) => item.id === id))
+    .filter((item): item is SidebarEntry => Boolean(item));
   // While editing, the reorder and remove controls live on the real bar, outside the popup. Base
   // UI's focus trap would keep Tab out of them (and aria-hide them), so editing turns it off and
   // Tab instead cycles the sheet's controls, then the bar's, then back to the sheet.
@@ -131,12 +145,16 @@ export default function Navigation({
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
   }, [open, editing, navbarSlot]);
-  const save = (next: string[]) => {
+  const save = (next: string[], order: string[]) => {
     draftRef.current = null;
     setSelected(next);
+    setSavedOrder(order);
     setEditing(false);
     try {
-      if (storageKey) localStorage.setItem(storageKey, JSON.stringify(next));
+      if (storageKey) {
+        localStorage.setItem(storageKey, JSON.stringify(next));
+        localStorage.setItem(drawerOrderKey(storageKey), JSON.stringify(order));
+      }
       setNotice('');
       setOpen(false);
       toast.add({ title: 'Navbar saved.' });
@@ -176,8 +194,11 @@ export default function Navigation({
         const draft = draftRef.current;
         draftRef.current = null;
         setEditing(false);
-        const valid = draft && draft.length >= 2 && draft.length <= maxPinnedPages;
-        if (valid && draft.join() !== pinned.join()) save(draft);
+        if (!draft) return;
+        const valid = draft.ids.length >= 2 && draft.ids.length <= maxPinnedPages;
+        const changed =
+          draft.ids.join() !== pinned.join() || draft.order.join() !== drawerOrder.join();
+        if (valid && changed) save(draft.ids, draft.order);
       }}
     >
       <div ref={bar} className={styles.bar} data-sheet={sheetVisible || open || undefined}>
@@ -254,6 +275,7 @@ export default function Navigation({
             <NavigationEditor
               items={available}
               selected={pinned}
+              order={drawerOrder}
               onCancel={() => {
                 draftRef.current = null;
                 setEditing(false);
