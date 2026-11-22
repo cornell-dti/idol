@@ -579,10 +579,20 @@ export function AdminShoutoutsView({
   };
   const tickAutoScroll = (now: number) => {
     const auto = autoScroll.current;
+    if (!auto) return;
     const scroller = stagePopup.current;
     const cards = stageList.current?.children;
-    if (!auto || !scroller || !cards?.length) return;
-    const elapsed = Math.min(now - auto.last, 50) / 1000;
+    const max = scroller ? scroller.scrollHeight - scroller.clientHeight : 0;
+    // Still mounting or laying out (nothing to scroll yet): wait for it instead of giving up,
+    // which used to leave the switch on with nothing moving, or flip it straight back off.
+    if (!scroller || !cards?.length || max <= 0) {
+      auto.last = now;
+      auto.frame = requestAnimationFrame(tickAutoScroll);
+      return;
+    }
+    // A frame's timestamp is when the frame began, which can be just before the click that
+    // started the loop; clamp so that first step never runs backwards.
+    const elapsed = Math.min(Math.max(now - auto.last, 0), 50) / 1000;
     auto.last = now;
     // Someone else moved the list (wheel, touch, scrollbar, an arrow-key step): pick up from
     // there, and hold off until they've stopped so momentum scrolling isn't fought or undone.
@@ -603,7 +613,6 @@ export function AdminShoutoutsView({
     const span = cards[index + 1]
       ? cardTop(cards[index + 1]) - cardTop(card)
       : (card as HTMLElement).offsetHeight;
-    const max = scroller.scrollHeight - scroller.clientHeight;
     // Accumulate fractional pixels: slow speeds move less than a pixel per frame.
     const speed = autoScrollSpeedRef.current;
     auto.position = Math.min(
@@ -612,7 +621,8 @@ export function AdminShoutoutsView({
     );
     scroller.scrollTop = auto.position;
     auto.written = scroller.scrollTop;
-    if (auto.position <= 0 || auto.position >= max) {
+    // Only the end it's heading for stops it: starting at the very top going down is not "done".
+    if (auto.direction > 0 ? auto.position >= max : auto.position <= 0) {
       const { mode } = auto;
       stopAutoScroll();
       // Reaching the end turns the switch off, so it doesn't look like it's still running.
