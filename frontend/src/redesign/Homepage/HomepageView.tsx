@@ -36,7 +36,8 @@ const productSupport = [
   { id: 'idol', name: 'IDOL', channel: 'idol-support' },
   { id: 'courseplan', name: 'CoursePlan', channel: 'courseplan-support' },
   { id: 'curaise', name: 'CU Raise', channel: 'curaise-support' },
-  { id: 'loop', name: 'Loop', channel: 'loop-support' }
+  { id: 'loop', name: 'Loop', channel: 'loop-support' },
+  { id: 'cuapts', name: 'CU Apts', channel: 'cuapts-support' }
 ] as const;
 
 const helpLinks = [
