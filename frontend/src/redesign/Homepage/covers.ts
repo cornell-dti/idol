@@ -28,6 +28,7 @@ export const presetCovers: Cover[] = [
   responsiveCover('courseplan-work-session', 'CoursePlan work sesh'),
   responsiveCover('curaise-work-session', 'CU Raise work sesh'),
   responsiveCover('cuapts', 'CU Apts'),
+  responsiveCover('loop', 'Loop'),
   responsiveCover('business', 'Business'),
   responsiveCover('pms', 'PMs'),
   responsiveCover('tpms', 'TPMs'),
