@@ -121,6 +121,11 @@
 .eventTags:empty {
   display: none;
 }
+/* Neutral, so it reads as context next to the colored Internal/External pills. */
+span.currentPeriod.currentPeriod {
+  background: var(--idol-bg-dimmer);
+  color: var(--idol-fg-dimmer);
+}
 .eventText {
   display: flex;
   flex-direction: column;

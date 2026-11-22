@@ -288,7 +288,7 @@ const TeamEventCreditForm: React.FC = () => {
           </span>
         </span>
         <span className={styles.eventTags}>
-          {inCurrentPeriod(event) && <Pill>Current period</Pill>}
+          {inCurrentPeriod(event) && <Pill className={styles.currentPeriod}>Current period</Pill>}
           {showsKind(event) &&
             (event.kind === 'external' ? (
               <Pill color="green" className={`${styles.eventKind} ${styles.externalCredit}`}>
