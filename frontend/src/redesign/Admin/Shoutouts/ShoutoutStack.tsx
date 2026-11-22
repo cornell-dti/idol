@@ -8,6 +8,8 @@ type Props = {
   items: Shoutout[];
   shortcutsDisabled: boolean;
   renderCard: (shoutout: Shoutout, index: number) => JSX.Element;
+  /** Reports the card on top, so the presentation can show progress. */
+  onIndexChange?: (index: number) => void;
 };
 
 type Slide = {
@@ -20,12 +22,14 @@ type Slide = {
 export default function ShoutoutStack({
   items,
   shortcutsDisabled,
-  renderCard
+  renderCard,
+  onIndexChange
 }: Props): JSX.Element {
   const [slide, setSlide] = useState<Slide | null>(null);
   const position = slide ? items.findIndex((item) => item.uuid === slide.id) : -1;
   const index = position >= 0 ? position : Math.min(slide?.index ?? 0, items.length - 1);
   const current = items[index];
+  useEffect(() => onIndexChange?.(index), [index, onIndexChange]);
 
   const move = (offset: number) => {
     const next = items[index + offset];
