@@ -264,6 +264,11 @@ const TeamEventCreditForm: React.FC = () => {
     const max = Number(event.maxCredits) !== credits ? ` (${event.maxCredits} max)` : '';
     return `${event.numCredits} ${unit}${event.hasHours ? '/hour' : ''}${max}`;
   };
+  // Strict, unlike getTECPeriod: once the last deadline passes there is no current period.
+  const openPeriod = tecDeadlines.findIndex((deadline) => new Date() <= deadline);
+  const inCurrentPeriod = (event: TeamEventInfo) =>
+    openPeriod !== -1 &&
+    tecDeadlines.findIndex((deadline) => new Date(event.date) <= deadline) === openPeriod;
   const showsKind = (event: TeamEventInfo) => Boolean(tecConfig.considerEventKind && event.kind);
   // The searchable label keeps every detail so typing a date, "internal" or "external" still filters.
   const eventLabel = (event: TeamEventInfo) =>
@@ -282,14 +287,17 @@ const TeamEventCreditForm: React.FC = () => {
             {event.isInitiativeEvent ? ' · Initiative' : ''}
           </span>
         </span>
-        {showsKind(event) &&
-          (event.kind === 'external' ? (
-            <Pill color="green" className={`${styles.eventKind} ${styles.externalCredit}`}>
-              External
-            </Pill>
-          ) : (
-            <Pill className={styles.eventKind}>Internal</Pill>
-          ))}
+        <span className={styles.eventTags}>
+          {inCurrentPeriod(event) && <Pill>Current period</Pill>}
+          {showsKind(event) &&
+            (event.kind === 'external' ? (
+              <Pill color="green" className={`${styles.eventKind} ${styles.externalCredit}`}>
+                External
+              </Pill>
+            ) : (
+              <Pill className={styles.eventKind}>Internal</Pill>
+            ))}
+        </span>
       </span>
     );
   };

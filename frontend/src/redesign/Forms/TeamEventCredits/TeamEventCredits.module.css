@@ -112,6 +112,15 @@
   gap: 12px;
   min-width: 0;
 }
+.eventTags {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+}
+.eventTags:empty {
+  display: none;
+}
 .eventText {
   display: flex;
   flex-direction: column;
