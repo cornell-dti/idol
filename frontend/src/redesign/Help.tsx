@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { useRef, useState } from 'react';
 import content from './helpContent.json';
 import productLogos from './helpProductLogos';
+import ProductLogo from './ProductLogo';
 import { Card, DesignSystemScope, Input, Link } from '../design-system-2026/components';
 import {
   ArrowSquareOutIcon,
@@ -40,7 +41,7 @@ const glossary: readonly GlossaryEntry[] = content.terms.map((term) => ({
 }));
 const productEntries: readonly GlossaryEntry[] = content.products.map((product) => ({
   ...product,
-  logo: productLogos[product.logo],
+  logo: product.logo in productLogos ? product.logo : undefined,
   href: product.status === 'Archived' ? undefined : product.href
 }));
 
@@ -59,7 +60,7 @@ function Definitions({
           <dt className={styles.term}>
             {logo ? (
               <span className={styles.productLogo}>
-                <img src={logo} alt="" width={24} height={24} />
+                <ProductLogo id={logo} size={24} />
               </span>
             ) : (
               TermIcon && <TermIcon size={24} aria-hidden="true" className={styles.termIcon} />

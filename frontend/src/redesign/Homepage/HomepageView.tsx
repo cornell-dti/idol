@@ -10,7 +10,7 @@ import {
   useToast
 } from '../../design-system-2026/components';
 import { ArrowRightIcon, InfoIcon } from '../../design-system-2026/icons';
-import productLogos from '../helpProductLogos';
+import ProductLogo from '../ProductLogo';
 import HomeSearch from './HomeSearch';
 import HomepageCover from './HomepageCover';
 import { coverStorageKey } from './covers';
@@ -84,7 +84,7 @@ function ProductSupport(): JSX.Element {
               aria-label={`${name} support on Slack (#${channel})`}
             >
               <span className={styles.productTile}>
-                <img src={productLogos[id]} alt="" width={40} height={40} />
+                <ProductLogo id={id} size={40} />
               </span>
               <span>{name}</span>
             </a>

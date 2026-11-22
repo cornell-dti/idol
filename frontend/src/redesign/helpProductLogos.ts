@@ -26,4 +26,10 @@ const productLogos: Record<string, string> = {
   idol: '/design-system/figma/idol-logo.png'
 };
 
+/** Variants for the light theme, where a logo's own colors vanish on a light tile. */
+export const productLogosOnLight: Partial<Record<string, string>> = {
+  // The shared CU Apts wordmark is white; this copy draws it in the light theme's fg-default.
+  cuapts: '/redesign/products/cuapts-on-light.svg'
+};
+
 export default productLogos;

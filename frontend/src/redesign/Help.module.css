@@ -129,7 +129,7 @@
   width: 24px;
   height: 24px;
   border-radius: 4px;
-  background: #fff;
+  background: var(--idol-bg-default);
 }
 .productLogo img {
   display: block;
