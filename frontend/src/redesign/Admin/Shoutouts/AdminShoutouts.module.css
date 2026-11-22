@@ -420,8 +420,11 @@
 
 .stageToolbar {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 12px;
+  /* A little more room before the meter than between the meter and its count. */
+  margin-right: 8px;
 }
 
 /* Fixed info blue, like the speaker badges, so the meter reads whatever accent is chosen. */

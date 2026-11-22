@@ -281,14 +281,18 @@ function Attachment({
 function PresentProgress({
   current,
   total,
+  leading,
   children
 }: {
   current: number;
   total: number;
+  /** Controls to the left of the meter (Back, layout), mirroring `children` on its right. */
+  leading?: ReactNode;
   children?: ReactNode;
 }): JSX.Element {
   return (
     <div className={styles.progress}>
+      {leading}
       <div
         className={styles.progressTrack}
         role="progressbar"
@@ -762,6 +766,54 @@ export function AdminShoutoutsView({
     />
   );
 
+  const stageToolbar = (
+    <div className={styles.stageToolbar}>
+      <Dialog.Close
+        render={
+          <Button
+            className={styles.stageBack}
+            variant="secondary"
+            aria-keyshortcuts="Escape"
+            icon={<ArrowLeftIcon size={16} aria-hidden />}
+          >
+            Back
+          </Button>
+        }
+      />
+      {!!visible.length && (
+        <TabList aria-label="Presentation layout" segmented activateOnFocus>
+          <Tab value="stack" icon={<StackIcon size={16} />}>
+            Stack
+          </Tab>
+          <Tab value="list" icon={<ListBulletsIcon size={16} />}>
+            List
+          </Tab>
+        </TabList>
+      )}
+    </div>
+  );
+  // Back and the layout switch sit left of the meter, the count and auto-scroll to its right.
+  const stageHeaderContent = visible.length ? (
+    <PresentProgress
+      current={
+        Math.min(presentationView === 'list' ? listIndex : stackIndex, visible.length - 1) + 1
+      }
+      total={visible.length}
+      leading={stageToolbar}
+    >
+      {presentationView === 'list' && (
+        <AutoScrollControl
+          on={autoScrollOn}
+          onToggle={setAutoScrollOn}
+          speed={autoScrollSpeed}
+          onSpeedChange={setAutoScrollSpeed}
+        />
+      )}
+    </PresentProgress>
+  ) : (
+    stageToolbar
+  );
+
   const scope = view === 'hidden' ? 'hidden ' : '';
   const visibilityAction = pending?.hidden ? 'Unhide shoutout' : 'Hide shoutout';
   let results: JSX.Element;
@@ -885,50 +937,7 @@ export function AdminShoutoutsView({
                   onValueChange={(next) => setPresentationView(next as PresentationView)}
                 >
                   <div ref={stageHeader} className={styles.stageHeader}>
-                    {!!visible.length && (
-                      <PresentProgress
-                        current={
-                          Math.min(
-                            presentationView === 'list' ? listIndex : stackIndex,
-                            visible.length - 1
-                          ) + 1
-                        }
-                        total={visible.length}
-                      >
-                        {presentationView === 'list' && (
-                          <AutoScrollControl
-                            on={autoScrollOn}
-                            onToggle={setAutoScrollOn}
-                            speed={autoScrollSpeed}
-                            onSpeedChange={setAutoScrollSpeed}
-                          />
-                        )}
-                      </PresentProgress>
-                    )}
-                    <div className={styles.stageToolbar}>
-                      <Dialog.Close
-                        render={
-                          <Button
-                            className={styles.stageBack}
-                            variant="secondary"
-                            aria-keyshortcuts="Escape"
-                            icon={<ArrowLeftIcon size={16} aria-hidden />}
-                          >
-                            Back
-                          </Button>
-                        }
-                      />
-                      {!!visible.length && (
-                        <TabList aria-label="Presentation layout" segmented activateOnFocus>
-                          <Tab value="stack" icon={<StackIcon size={16} />}>
-                            Stack
-                          </Tab>
-                          <Tab value="list" icon={<ListBulletsIcon size={16} />}>
-                            List
-                          </Tab>
-                        </TabList>
-                      )}
-                    </div>
+                    {stageHeaderContent}
                   </div>
                   {visible.length ? (
                     <>
