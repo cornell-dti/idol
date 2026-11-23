@@ -386,6 +386,10 @@
   gap: 15px;
 }
 
+.startAttendanceModal {
+  gap: 15px;
+}
+
 .cancelAllHandsField {
   display: flex;
   flex-direction: column;

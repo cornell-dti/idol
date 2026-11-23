@@ -636,6 +636,7 @@ export function AttendanceTracker(): JSX.Element {
         onOpenChange={setStartOpen}
         title="Start attendance"
         description="Choose an all-hands and share one code word with everyone."
+        surfaceClassName={styles.startAttendanceModal}
         footer={
           <>
             <ModalClose render={<Button variant="secondary">Cancel</Button>} />
