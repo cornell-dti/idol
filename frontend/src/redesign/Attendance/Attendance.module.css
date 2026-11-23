@@ -22,7 +22,7 @@
 .toolbar {
   display: flex;
   align-items: center;
-  gap: 16px; 
+  gap: 16px;
   margin-top: 16px;
 }
 
@@ -40,9 +40,75 @@
   margin-left: auto;
 }
 
+.attendanceSummary {
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto 48px;
+}
+
+.attendanceSummary.hasActiveSession {
+  display: grid;
+  grid-template-columns: minmax(240px, 278px) minmax(0, 1fr);
+  gap: 32px;
+  max-width: none;
+}
+
+.activeSessionCard {
+  box-sizing: border-box;
+  min-height: 136px;
+  padding: 12px 16px;
+  border: 1px solid color-mix(in srgb, var(--idol-success-default) 24%, var(--idol-stroke-black));
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--idol-success-default) 10%, var(--idol-bg-default));
+  box-shadow: var(--idol-shadow-surface);
+  color: var(--idol-success-default);
+}
+
+.activeSessionHeading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: var(--idol-type-body-default);
+}
+
+.activeSessionDot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.activeSessionCode {
+  margin-top: 12px;
+  padding: 7px 12px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 6px;
+  background: var(--idol-bg-default);
+  color: var(--idol-fg-default);
+  font-size: 24px;
+  line-height: 32px;
+  text-align: center;
+}
+
+.activeSessionLabel {
+  margin-top: 4px;
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-body-default);
+  text-align: center;
+}
+
+.adminPage .pageHeader,
+.adminPage .attendanceSummary,
+.adminPage .statisticsCard,
+.adminPage .overviewCard {
+  width: 100%;
+  max-width: none;
+}
+
 .statisticsCard {
   flex-direction: row;
-  margin-bottom: 48px;
+  margin-bottom: 0;
 }
 
 .statisticsCard > div:last-child {
@@ -55,7 +121,7 @@
 .stat {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
 }
 
 .stat strong {
@@ -96,6 +162,28 @@
 .tableScroller {
   overflow-x: auto;
   margin: -16px;
+}
+
+.emptyDatesState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  gap: 8px;
+  padding: 32px 16px;
+  color: var(--idol-fg-dimmer);
+  text-align: center;
+}
+
+.emptyDatesState strong {
+  color: var(--idol-fg-default);
+  font: var(--idol-type-heading-4);
+  letter-spacing: var(--idol-type-heading-4-tracking);
+}
+
+.emptyDatesState span {
+  font: var(--idol-type-body-default);
 }
 
 .table {
@@ -144,6 +232,13 @@
   font-weight: 400;
 }
 
+.table tbody th,
+.table tbody td {
+  height: 56px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
 .dateHeading {
   display: inline-flex;
   align-items: center;
@@ -154,6 +249,40 @@
   display: block;
   margin-top: 4px;
   font: var(--idol-type-body-small);
+}
+
+.dateHeaderContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dateEditButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border: 0;
+  background: transparent;
+  color: var(--idol-fg-default);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.dateHeaderCell:hover .dateEditButton,
+.dateEditButton:focus-visible {
+  opacity: 1;
+}
+
+.dateEditButton:focus-visible {
+  border-radius: 4px;
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 2px;
 }
 
 .editDateButton {
@@ -168,7 +297,8 @@
 .memberCell {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  justify-content: center;
+  gap: 2px;
   text-align: left !important;
 }
 
@@ -182,17 +312,49 @@
 }
 
 .attendanceCell {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 72px;
+  min-height: 56px;
   padding: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
   color: var(--idol-success-default);
   cursor: pointer;
+}
+
+.attendanceStatus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editAttendanceButton {
+  position: absolute;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--idol-bg-default);
+  color: var(--idol-fg-default);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  opacity: 0;
+  transform: translateX(4px);
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease;
+}
+
+.attendanceCell:hover .editAttendanceButton,
+.attendanceCell:focus-visible .editAttendanceButton {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .attendanceCell:hover,
@@ -218,6 +380,34 @@
 
 .compactModal {
   min-height: 0;
+}
+
+.editDateModal {
+  gap: 15px;
+}
+
+.cancelAllHandsField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cancelAllHandsLabel {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  color: var(--idol-danger-default);
+  font: var(--idol-type-label-default);
+  letter-spacing: var(--idol-type-label-default-tracking);
+  cursor: pointer;
+}
+
+.cancelAllHandsField p {
+  margin: 0;
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-body-default);
 }
 
 .suggestions {

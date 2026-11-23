@@ -76,6 +76,7 @@ export const breadcrumbRoutes: Record<string, Route> = {
   '/design-system-2026/shell': { label: 'App Shell', parent: '/design-system-2026' },
   '/design-system-2026/homepage': { label: 'Home Preview', parent: '/design-system-2026' },
   '/admin': { label: 'Admin', icon: UsersIcon, supportsDarkTheme: true },
+  '/admin/attendance': { label: 'Attendance Tracker', parent: '/admin', supportsDarkTheme: true },
   '/admin/member-review': { label: 'Member Information Review', parent: '/admin' },
   '/admin/site-deployer': { label: 'Site Deployer', parent: '/admin' },
   '/admin/signin-creator': { label: 'Sign-In Creator', parent: '/admin' },
