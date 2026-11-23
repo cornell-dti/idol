@@ -150,6 +150,37 @@ const statusOptions = [
   { value: 'excused', label: 'Excused' }
 ];
 
+const codeWordBank = [
+  'hamster',
+  'table',
+  'chair',
+  'burger',
+  'exam',
+  'rocket',
+  'pickle',
+  'waffle',
+  'penguin',
+  'marshmallow',
+  'telescope',
+  'banana',
+  'rainbow',
+  'pancake',
+  'dinosaur',
+  'scooter',
+  'moonwalk',
+  'jellybean',
+  'toaster',
+  'confetti', 
+  'idol',
+  'innovation',
+  'flocculent',
+  'goat'
+];
+
+const pickRandomCodeWords = () => [...codeWordBank]
+  .sort(() => Math.random() - 0.5)
+  .slice(0, 4);
+
 function AttendanceCell({
   status,
   onClick,
@@ -206,6 +237,7 @@ export function AttendanceTracker(): JSX.Element {
   const [editNote, setEditNote] = useState('');
   const [startDate, setStartDate] = useState('November 21, 2026 (today)');
   const [codeWord, setCodeWord] = useState('');
+  const [codeWordSuggestions, setCodeWordSuggestions] = useState(pickRandomCodeWords);
   const [activeSession, setActiveSession] = useState<AttendanceSession | null>(null);
 
   const visibleRows = useMemo(() => {
@@ -634,7 +666,7 @@ export function AttendanceTracker(): JSX.Element {
           <div className={styles.suggestions}>
             <span>Suggestions</span>
             <div className={styles.suggestionList}>
-              {['hamster', 'table', 'chair', 'burger', 'exam'].map((suggestion) => (
+              {codeWordSuggestions.map((suggestion) => (
                 <Button
                   key={suggestion}
                   variant="secondary"
@@ -643,7 +675,11 @@ export function AttendanceTracker(): JSX.Element {
                   {suggestion}
                 </Button>
               ))}
-              <Button variant="secondary" icon={<PlusIcon size={16} aria-hidden="true" />}>
+              <Button
+                variant="secondary"
+                icon={<PlusIcon size={16} aria-hidden="true" />}
+                onClick={() => setCodeWordSuggestions(pickRandomCodeWords())}
+              >
                 Reshuffle
               </Button>
             </div>
