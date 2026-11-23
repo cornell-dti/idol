@@ -380,6 +380,7 @@
 
 .compactModal {
   min-height: 0;
+  gap: 15px;
 }
 
 .editDateModal {
