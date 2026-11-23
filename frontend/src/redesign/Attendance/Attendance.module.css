@@ -521,7 +521,7 @@
 .historyList {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 0;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -531,6 +531,17 @@
   display: flex;
   justify-content: space-between;
   gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--idol-stroke-black);
+}
+
+.historyList li:first-child {
+  padding-top: 0;
+}
+
+.historyList li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
 }
 
 .historyList .present {
