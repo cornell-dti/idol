@@ -4,6 +4,8 @@ import APIWrapper from './APIWrapper';
 export type AttendanceSemester = {
   id: string;
   name: string;
+  startDate: string;
+  endDate: string;
   createdAt: string;
   updatedAt: string;
 };
