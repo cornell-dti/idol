@@ -20,14 +20,15 @@ import {
   Select,
   Textarea
 } from '../../design-system-2026/components';
+import { AttendanceEventStatus, AttendanceMemberStatus } from '../../API/AttendanceAPI';
 import styles from './Attendance.module.css';
 
-type AttendanceStatus = 'present' | 'absent' | 'future';
+type AttendanceStatus = AttendanceMemberStatus | 'future';
 type AttendanceDate = {
   id: string;
   date: string;
+  status: AttendanceEventStatus;
   attendance: AttendanceStatus[];
-  cancelled?: boolean;
 };
 
 type AttendanceRow = {
@@ -91,29 +92,67 @@ const initialRows: AttendanceRow[] = [
 ];
 
 const initialAttendanceDates: AttendanceDate[] = [
-  { id: 'ah-1', date: '2026-10-10', attendance: initialRows.map((row) => row.attendance[0]) },
-  { id: 'ah-2', date: '2026-10-17', attendance: initialRows.map((row) => row.attendance[1]) },
-  { id: 'ah-3', date: '2026-10-24', attendance: initialRows.map((row) => row.attendance[2]) },
-  { id: 'ah-4', date: '2026-10-31', attendance: initialRows.map((row) => row.attendance[3]) },
-  { id: 'ah-5', date: '2026-11-07', attendance: initialRows.map((row) => row.attendance[4]) },
-  { id: 'ah-6', date: '2026-11-14', attendance: initialRows.map((row) => row.attendance[5]) },
-  { id: 'ah-7', date: '2026-11-21', attendance: initialRows.map((row) => row.attendance[6]) }
+  {
+    id: 'ah-1',
+    date: '2026-10-10',
+    status: 'closed',
+    attendance: initialRows.map((row) => row.attendance[0])
+  },
+  {
+    id: 'ah-2',
+    date: '2026-10-17',
+    status: 'closed',
+    attendance: initialRows.map((row) => row.attendance[1])
+  },
+  {
+    id: 'ah-3',
+    date: '2026-10-24',
+    status: 'closed',
+    attendance: initialRows.map((row) => row.attendance[2])
+  },
+  {
+    id: 'ah-4',
+    date: '2026-10-31',
+    status: 'closed',
+    attendance: initialRows.map((row) => row.attendance[3])
+  },
+  {
+    id: 'ah-5',
+    date: '2026-11-07',
+    status: 'closed',
+    attendance: initialRows.map((row) => row.attendance[4])
+  },
+  {
+    id: 'ah-6',
+    date: '2026-11-14',
+    status: 'scheduled',
+    attendance: initialRows.map((row) => row.attendance[5])
+  },
+  {
+    id: 'ah-7',
+    date: '2026-11-21',
+    status: 'scheduled',
+    attendance: initialRows.map((row) => row.attendance[6])
+  }
 ];
 
 const springDates: AttendanceDate[] = [
   {
     id: 'sp-ah-1',
     date: '2026-02-07',
+    status: 'closed',
     attendance: ['present', 'present', 'absent', 'present', 'present', 'absent']
   },
   {
     id: 'sp-ah-2',
     date: '2026-02-14',
+    status: 'closed',
     attendance: ['absent', 'present', 'present', 'present', 'absent', 'present']
   },
   {
     id: 'sp-ah-3',
     date: '2026-02-21',
+    status: 'closed',
     attendance: ['present', 'absent', 'present', 'absent', 'present', 'present']
   }
 ];
@@ -121,16 +160,19 @@ const fallPreviousDates: AttendanceDate[] = [
   {
     id: 'fa-ah-1',
     date: '2025-09-06',
+    status: 'closed',
     attendance: ['present', 'absent', 'present', 'present', 'absent', 'present']
   },
   {
     id: 'fa-ah-2',
     date: '2025-09-20',
+    status: 'closed',
     attendance: ['present', 'present', 'present', 'absent', 'present', 'present']
   },
   {
     id: 'fa-ah-3',
     date: '2025-10-04',
+    status: 'closed',
     attendance: ['absent', 'present', 'present', 'present', 'present', 'absent']
   }
 ];
@@ -170,16 +212,14 @@ const codeWordBank = [
   'moonwalk',
   'jellybean',
   'toaster',
-  'confetti', 
+  'confetti',
   'idol',
   'innovation',
   'flocculent',
   'goat'
 ];
 
-const pickRandomCodeWords = () => [...codeWordBank]
-  .sort(() => Math.random() - 0.5)
-  .slice(0, 4);
+const pickRandomCodeWords = () => [...codeWordBank].sort(() => Math.random() - 0.5).slice(0, 4);
 
 function AttendanceCell({
   status,
@@ -247,7 +287,7 @@ export function AttendanceTracker(): JSX.Element {
         ...row,
         absences: dates.reduce(
           (count, date) =>
-            count + (!date.cancelled && date.attendance[rowIndex] === 'absent' ? 1 : 0),
+            count + (date.status !== 'cancelled' && date.attendance[rowIndex] === 'absent' ? 1 : 0),
           0
         )
       }))
@@ -267,7 +307,17 @@ export function AttendanceTracker(): JSX.Element {
       ...all,
       [semester]: (all[semester] ?? [])
         .map((date) =>
-          date.id === dateTarget ? { ...date, date: dateDraft, cancelled: dateCancelled } : date
+          date.id === dateTarget
+            ? {
+                ...date,
+                date: dateDraft,
+                status: (dateCancelled
+                  ? 'cancelled'
+                  : date.status === 'cancelled'
+                    ? 'scheduled'
+                    : date.status) as AttendanceEventStatus
+              }
+            : date
         )
         .sort((a, b) => a.date.localeCompare(b.date))
     }));
@@ -283,6 +333,7 @@ export function AttendanceTracker(): JSX.Element {
         {
           id: `ah-${Date.now()}`,
           date: newDate,
+          status: 'scheduled' as AttendanceEventStatus,
           attendance: rows.map((): AttendanceStatus => 'future')
         }
       ].sort((a, b) => a.date.localeCompare(b.date))
@@ -294,7 +345,7 @@ export function AttendanceTracker(): JSX.Element {
   const saveAttendance = () => {
     if (!editTarget) return;
     const rowIndex = rows.findIndex((row) => row.id === editTarget.rowId);
-    const nextStatus: AttendanceStatus = editStatus === 'present' ? 'present' : 'absent';
+    const nextStatus: AttendanceMemberStatus = editStatus as AttendanceMemberStatus;
     setSemesterDates((all) => ({
       ...all,
       [semester]: (all[semester] ?? []).map((date, index) =>
@@ -460,7 +511,7 @@ export function AttendanceTracker(): JSX.Element {
                     const present = date.attendance.filter((status) => status === 'present').length;
                     const recorded = date.attendance.filter((status) => status !== 'future').length;
                     let detail = '--';
-                    if (date.cancelled) detail = 'Cancelled';
+                    if (date.status === 'cancelled') detail = 'Cancelled';
                     else if (recorded) detail = `${present}/${rows.length} present`;
                     return (
                       <th scope="col" key={date.id} className={styles.dateHeaderCell}>
@@ -474,7 +525,7 @@ export function AttendanceTracker(): JSX.Element {
                             onClick={() => {
                               setDateTarget(date.id);
                               setDateDraft(date.date);
-                              setDateCancelled(Boolean(date.cancelled));
+                              setDateCancelled(date.status === 'cancelled');
                             }}
                           >
                             <PencilSimpleLineIcon size={16} aria-hidden="true" />
@@ -498,7 +549,7 @@ export function AttendanceTracker(): JSX.Element {
                       const status = date.attendance[rowIndex] ?? 'future';
                       return (
                         <td key={`${row.id}-${date.id}`} className={styles.attendanceCellContainer}>
-                          {date.cancelled ? (
+                          {date.status === 'cancelled' ? (
                             <span className={styles.futureCell} aria-label="All-hands cancelled">
                               --
                             </span>
