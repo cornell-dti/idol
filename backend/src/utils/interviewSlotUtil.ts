@@ -40,3 +40,19 @@ export default function detectEmailChanges(
     signedUpMemberEmails
   };
 }
+
+/**
+ * Groups slots by their lead's email, skipping slots without a lead.
+ * Each lead's slots are sorted by start time.
+ */
+export function groupSlotsByLead(slots: InterviewSlot[]): Map<string, InterviewSlot[]> {
+  const slotsByLead = new Map<string, InterviewSlot[]>();
+  [...slots]
+    .sort((a, b) => a.startTime - b.startTime)
+    .forEach((slot) => {
+      const email = slot.lead?.email;
+      if (!email) return;
+      slotsByLead.set(email, [...(slotsByLead.get(email) ?? []), slot]);
+    });
+  return slotsByLead;
+}
