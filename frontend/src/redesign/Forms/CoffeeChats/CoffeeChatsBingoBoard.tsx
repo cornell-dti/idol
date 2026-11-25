@@ -16,6 +16,26 @@ interface CoffeeChatsBingoBoardProps {
   updateBingoCount?: (count: number) => void;
 }
 
+function BingoBoardSkeleton(): JSX.Element {
+  return (
+    <div className={styles.boardViews} role="status" aria-label="Loading bingo board">
+      <div aria-hidden="true" className={styles.boardSkeleton}>
+        <span className={`${styles.boardTabsSkeleton} idol-skeleton`} />
+        <div className={styles.boardScroll}>
+          <div
+            className={styles.bingo_board}
+            style={{ gridTemplateColumns: 'repeat(4,minmax(0,128px))' }}
+          >
+            {Array.from({ length: 16 }, (_, key) => (
+              <span key={key} className={`${styles.cellSkeleton} idol-skeleton`} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function CoffeeChatsBingoBoard({
   approvedChats,
   pendingChats,
@@ -39,7 +59,7 @@ export default function CoffeeChatsBingoBoard({
     categories.length > 0 &&
     categories.every((category) => approvedChats.some((chat) => chat.category === category));
   useEffect(() => updateBingoCount?.(lines.length), [lines.length, updateBingoCount]);
-  if (isChatLoading) return <p role="status">Loading bingo board…</p>;
+  if (isChatLoading) return <BingoBoardSkeleton />;
   if (!categories.length) return <p>No bingo categories are available yet.</p>;
   const columns = Math.max(...bingoBoard.map((row) => row.length));
   const cells = categories.map((category) => ({

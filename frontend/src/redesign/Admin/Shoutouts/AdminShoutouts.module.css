@@ -125,11 +125,12 @@
 .number {
   display: inline-grid;
   place-items: center;
-  justify-self: start;
+  flex-shrink: 0;
   box-sizing: border-box;
   min-width: 28px;
   height: 28px;
-  margin-bottom: 6px;
+  /* Centre the badge on the title's first line, however many lines the title wraps to. */
+  margin-top: calc((var(--present-line-height) - 28px) / 2);
   padding: 0 6px;
   border-radius: 999px;
   background: var(--idol-bg-dimmer);
@@ -173,15 +174,33 @@
   font: var(--idol-type-label-small);
 }
 
+.cardContent {
+  /* Presented text runs at 90% of heading-3, so title and message shrink together. */
+  --present-font-size: calc(var(--idol-type-heading-3-size) * 0.9);
+  --present-line-height: calc(var(--idol-type-heading-3-line-height) * 0.9);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .cardContent h2 {
+  min-width: 0;
   margin: 0;
   font: var(--idol-type-heading-3);
+  font-size: var(--present-font-size);
+  line-height: var(--present-line-height);
 }
 
 .message {
   margin: 0;
   font: var(--idol-type-heading-3);
+  font-size: var(--present-font-size);
   font-weight: 400;
+  line-height: var(--present-line-height);
   white-space: pre-wrap;
 }
 
@@ -389,19 +408,94 @@
   min-width: 0;
 }
 
-.stageToolbar {
+.stageHeader {
   position: sticky;
   z-index: 3;
   top: 0;
+  display: grid;
+  gap: 20px;
+  padding: max(20px, env(safe-area-inset-top)) 0 8px;
+  background: var(--idol-bg-canvas);
+}
+
+.stageToolbar {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   gap: 12px;
-  padding: max(24px, env(safe-area-inset-top)) 0 8px;
-  background: var(--idol-bg-canvas);
+  /* A little more room before the meter than between the meter and its count. */
+  margin-right: 8px;
+}
+
+/* Fixed info blue, like the speaker badges, so the meter reads whatever accent is chosen. */
+.progress {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+}
+
+.progressTrack {
+  flex: 1;
+  min-width: 120px;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--idol-info-default) 20%, transparent);
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--idol-info-default);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .progressFill {
+    transition: width 300ms cubic-bezier(0.45, 0, 0.25, 1);
+  }
+}
+
+.autoScroll {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.autoScroll .speedButton {
+  /* Fixed width that fits the widest value (2.75×), so changing speed doesn't shift the row. */
+  width: calc(4ch + 1.5em + 16px);
+  height: 28px;
+  padding: 0 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Popovers default to z-index 1100, under the presentation overlay (1200). */
+.stagePositioner.stagePositioner {
+  z-index: 1300;
+}
+
+.progressCount {
+  flex-shrink: 0;
+  color: var(--idol-fg-default);
+  font: var(--idol-type-label-default);
+  font-variant-numeric: tabular-nums;
 }
 
 .stagePanel {
   margin-top: 8px;
+}
+
+/* Base UI makes tab panels focusable, so arrow-key presenting drew the design system's panel ring
+   around the whole stage. The panel is just the stage itself here; the cards are what matter. */
+.stage .stagePanel:focus-visible {
+  outline: none;
+}
+
+/* Room below the last card so arrow keys can bring every card, the last included, up to the top. */
+.stage .stageList {
+  padding-bottom: max(0px, calc(100dvh - 280px));
 }
 
 .stageList .card {
@@ -411,10 +505,6 @@
 .stageList .cardContent {
   gap: 6px;
   padding: 0;
-}
-
-.stageList .number {
-  margin-bottom: 2px;
 }
 
 .stage button.stageBack {

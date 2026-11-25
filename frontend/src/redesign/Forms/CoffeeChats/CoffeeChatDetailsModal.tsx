@@ -1,14 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Modal, Button, Input, Pill } from '../../../design-system-2026/components';
+import { useDesignSystemAppearance } from '../../../design-system-2026/components/Theme/Theme';
 import {
   ArrowSquareOutIcon,
   CheckIcon,
   MagnifyingGlassIcon,
+  PlusIcon,
   TrashIcon
 } from '../../../design-system-2026/icons';
 import styles from './CoffeeChats.module.css';
 import CoffeeChatAPI from '../../../API/CoffeeChatAPI';
 import { Emitters } from '../../../utils';
+
+type Hint = { text: string; x: number; y: number; below: boolean };
+
+/**
+ * Explains why a suggestion is disabled. Rendered at the body level with fixed positioning so the
+ * modal's scroll area can't clip it and the dialog's focus/pointer handling can't suppress it.
+ */
+function SuggestionHint({ hint }: { hint: Hint | null }): JSX.Element | null {
+  const { theme, accent } = useDesignSystemAppearance();
+  if (!hint || typeof document === 'undefined') return null;
+  return createPortal(
+    <div data-idol-redesign data-idol-theme={theme} data-idol-accent={accent}>
+      <div
+        aria-hidden="true"
+        className={styles.suggestionHint}
+        data-below={hint.below || undefined}
+        style={{ left: hint.x, top: hint.y }}
+      >
+        {hint.text}
+      </div>
+    </div>,
+    document.body
+  );
+}
 
 const statusColor = { approved: 'green', pending: 'blue', rejected: 'red' } as const;
 const statusLabel = { approved: 'Approved', pending: 'Pending', rejected: 'Rejected' } as const;
@@ -26,6 +53,11 @@ type Props = {
   userInfo: IdolMember;
   submittedChats: CoffeeChat[];
   approvedArchivedChats: CoffeeChat[];
+  /**
+   * Prefills the submit form with this member and category. Returns a callback to run once the
+   * modal has finished closing (and released its scroll lock), e.g. to scroll to the form.
+   */
+  onSelectSuggestion: (netid: string, category: string) => (() => void) | null;
 };
 
 const CoffeeChatModal: React.FC<Props> = ({
@@ -36,18 +68,38 @@ const CoffeeChatModal: React.FC<Props> = ({
   deleteCoffeeChatRequest,
   userInfo,
   submittedChats,
-  approvedArchivedChats
+  approvedArchivedChats,
+  onSelectSuggestion
 }) => {
   const [confirm, setConfirm] = useState(false);
   const [busy, setBusy] = useState(false);
   const [failed, setFailed] = useState(false);
   const [query, setQuery] = useState('');
+  const [hint, setHint] = useState<Hint | null>(null);
+  const showHint = (target: HTMLElement, text: string) => {
+    const rect = target.getBoundingClientRect();
+    const below = rect.top < 72;
+    setHint({
+      text,
+      x: rect.left + rect.width / 2,
+      y: below ? rect.bottom + 6 : rect.top - 6,
+      below
+    });
+  };
+  const hideHint = () => setHint(null);
+  // Set when a suggestion is picked so the form takes over focus and scroll after closing.
+  const afterClose = useRef<(() => void) | null>(null);
   useEffect(() => {
     setConfirm(false);
     setQuery('');
+    setHint(null);
+    if (open) afterClose.current = null;
   }, [open, coffeeChat, category]);
-  const [suggestions, setSuggestions] = useState<CoffeeChatSuggestions>();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // null until the first response arrives; later opens refetch silently over the cached data.
+  const [suggestions, setSuggestions] = useState<CoffeeChatSuggestions | null>(null);
+  const isLoading = !suggestions && !failed;
+  const hasSuggestions = useRef(false);
+  hasSuggestions.current = suggestions !== null;
 
   let membersInCategory: MemberDetails[] = [];
   if (suggestions && category && category in suggestions) {
@@ -69,32 +121,27 @@ const CoffeeChatModal: React.FC<Props> = ({
     );
   const search = query.trim().toLowerCase();
   const filteredMembers = membersInCategory
-    .filter((person) =>
-      `${person.name} ${person.netid} ${previousReasons(person.netid).join(' ')}`
-        .toLowerCase()
-        .includes(search)
-    )
+    .filter((person) => `${person.name} ${person.netid}`.toLowerCase().includes(search))
     .slice()
     .sort((a, b) => a.name.localeCompare(b.name));
 
   useEffect(() => {
     let active = true;
     const fetchMembers = async () => {
-      setIsLoading(true);
       setFailed(false);
       try {
         const next = await CoffeeChatAPI.getCoffeeChatSuggestions(userInfo.email);
         if (!next) throw new Error('Missing suggestions');
         if (active) setSuggestions(next);
       } catch (error) {
-        if (!active) return;
+        // A failed refresh keeps showing the suggestions we already have.
+        if (!active || hasSuggestions.current) return;
         setFailed(true);
         Emitters.generalError.emit({
           headerMsg: 'Something went wrong',
           contentMsg: 'Could not retrieve coffee chat suggestions.'
         });
       }
-      if (active) setIsLoading(false);
     };
 
     if (open && !coffeeChat) fetchMembers();
@@ -111,6 +158,12 @@ const CoffeeChatModal: React.FC<Props> = ({
       id="coffee-chat-details"
       width={coffeeChat ? undefined : 840}
       open={open}
+      finalFocus={() => !afterClose.current}
+      onOpenChangeComplete={(next) => {
+        if (next || !afterClose.current) return;
+        afterClose.current();
+        afterClose.current = null;
+      }}
       onOpenChange={(next) => {
         if (!busy) setOpen(next);
       }}
@@ -208,7 +261,6 @@ const CoffeeChatModal: React.FC<Props> = ({
         </div>
       ) : (
         <div className={styles.details}>
-          {isLoading && <p role="status">Loading suggestions…</p>}
           {failed && (
             <p role="alert">Could not retrieve suggestions. Close and reopen to try again.</p>
           )}
@@ -223,21 +275,37 @@ const CoffeeChatModal: React.FC<Props> = ({
               <Input
                 id="coffee-suggestions-search"
                 aria-label="Search coffee chat suggestions"
-                placeholder="Search by name, NetID, or previous category"
+                placeholder="Search by name or NetID"
                 icon={<MagnifyingGlassIcon size={18} />}
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
               />
-              <p className={styles.suggestionCount} role="status">
-                {isLoading
-                  ? 'Loading…'
-                  : `${filteredMembers.length} ${
-                      filteredMembers.length === 1 ? 'member' : 'members'
-                    }`}
-              </p>
+              {isLoading ? (
+                <span
+                  className={`${styles.suggestionCountSkeleton} idol-skeleton`}
+                  aria-hidden="true"
+                />
+              ) : (
+                <p className={styles.suggestionCount} role="status">
+                  {`${filteredMembers.length} ${
+                    filteredMembers.length === 1 ? 'member' : 'members'
+                  }`}
+                </p>
+              )}
             </div>
           )}
-          <div className={styles.suggestionResults}>
+          <div className={styles.suggestionResults} onScroll={hideHint}>
+            {isLoading && (
+              <ul className={styles.suggestionsGrid} role="status" aria-label="Loading suggestions">
+                {Array.from({ length: 12 }, (_, key) => (
+                  <li
+                    key={key}
+                    className={`${styles.suggestionSkeleton} idol-skeleton`}
+                    aria-hidden="true"
+                  />
+                ))}
+              </ul>
+            )}
             {!isLoading &&
               !failed &&
               membersInCategory.length > 0 &&
@@ -246,22 +314,51 @@ const CoffeeChatModal: React.FC<Props> = ({
               <ul className={styles.suggestionsGrid}>
                 {filteredMembers.map((person) => {
                   const reasons = previousReasons(person.netid);
+                  const chatted = reasons.length > 0;
+                  const reasonText = `Already chatted for ${reasons.join('; ')}`;
                   return (
-                    <li key={person.netid} className={styles.suggestionMember}>
-                      <p>
-                        {person.name} <span className={styles.gray}>({person.netid})</span>
-                      </p>
-                      {reasons.length > 0 && (
-                        <p className={styles.previousReason}>
-                          Previously chatted for {reasons.join('; ')}
-                        </p>
-                      )}
+                    <li key={person.netid}>
+                      <button
+                        type="button"
+                        className={styles.suggestionMember}
+                        aria-disabled={chatted || undefined}
+                        aria-label={
+                          chatted
+                            ? `${person.name} (${person.netid}). ${reasonText}`
+                            : `Submit a coffee chat with ${person.name} (${person.netid})`
+                        }
+                        onMouseEnter={(event) =>
+                          chatted && showHint(event.currentTarget, reasonText)
+                        }
+                        onMouseLeave={hideHint}
+                        onFocus={(event) => chatted && showHint(event.currentTarget, reasonText)}
+                        onBlur={hideHint}
+                        onClick={(event) => {
+                          // Touch has no hover, so a tap on a disabled card shows the reason instead.
+                          if (chatted) {
+                            showHint(event.currentTarget, reasonText);
+                            return;
+                          }
+                          afterClose.current = onSelectSuggestion(person.netid, category);
+                          setOpen(false);
+                        }}
+                      >
+                        <span className={styles.suggestionName}>
+                          {person.name} <span className={styles.gray}>({person.netid})</span>
+                        </span>
+                        {chatted ? (
+                          <CheckIcon size={16} aria-hidden className={styles.suggestionIcon} />
+                        ) : (
+                          <PlusIcon size={16} aria-hidden className={styles.suggestionIcon} />
+                        )}
+                      </button>
                     </li>
                   );
                 })}
               </ul>
             )}
           </div>
+          <SuggestionHint hint={open ? hint : null} />
         </div>
       )}
     </Modal>

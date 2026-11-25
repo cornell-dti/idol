@@ -10,7 +10,7 @@ import {
   useToast
 } from '../../design-system-2026/components';
 import { ArrowRightIcon, InfoIcon } from '../../design-system-2026/icons';
-import productLogos from '../helpProductLogos';
+import ProductLogo from '../ProductLogo';
 import HomeSearch from './HomeSearch';
 import HomepageCover from './HomepageCover';
 import { coverStorageKey } from './covers';
@@ -36,7 +36,8 @@ const productSupport = [
   { id: 'idol', name: 'IDOL', channel: 'idol-support' },
   { id: 'courseplan', name: 'CoursePlan', channel: 'courseplan-support' },
   { id: 'curaise', name: 'CU Raise', channel: 'curaise-support' },
-  { id: 'loop', name: 'Loop', channel: 'loop-support' }
+  { id: 'loop', name: 'Loop', channel: 'loop-support' },
+  { id: 'cuapts', name: 'CU Apts', channel: 'cuapts-support' }
 ] as const;
 
 const helpLinks = [
@@ -84,7 +85,7 @@ function ProductSupport(): JSX.Element {
               aria-label={`${name} support on Slack (#${channel})`}
             >
               <span className={styles.productTile}>
-                <img src={productLogos[id]} alt="" width={40} height={40} />
+                <ProductLogo id={id} size={40} />
               </span>
               <span>{name}</span>
             </a>

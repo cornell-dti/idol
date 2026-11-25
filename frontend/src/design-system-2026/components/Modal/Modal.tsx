@@ -9,6 +9,8 @@ export type ModalProps = {
   id: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  /** Runs after the open/close animation finishes. */
+  onOpenChangeComplete?: (open: boolean) => void;
   trigger?: ReactElement;
   title: string;
   description?: string;
@@ -19,6 +21,8 @@ export type ModalProps = {
   dismissible?: boolean;
   surfaceClassName?: string;
   surfaceOverlay?: ReactNode;
+  /** Where focus goes when the modal closes; defaults to the element that opened it. */
+  finalFocus?: Dialog.Popup.Props['finalFocus'];
   popupProps?: Pick<
     HTMLAttributes<HTMLDivElement>,
     'onDragEnter' | 'onDragLeave' | 'onDragOver' | 'onDrop'
@@ -31,6 +35,7 @@ export function Modal({
   id,
   open,
   onOpenChange,
+  onOpenChangeComplete,
   trigger,
   title,
   description,
@@ -40,11 +45,17 @@ export function Modal({
   dismissible = true,
   surfaceClassName = '',
   surfaceOverlay,
+  finalFocus,
   popupProps
 }: ModalProps): JSX.Element {
   const { theme, accent } = useDesignSystemAppearance();
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange} disablePointerDismissal={!dismissible}>
+    <Dialog.Root
+      open={open}
+      onOpenChange={onOpenChange}
+      onOpenChangeComplete={onOpenChangeComplete}
+      disablePointerDismissal={!dismissible}
+    >
       {trigger && <Dialog.Trigger render={trigger} />}
       <Dialog.Portal
         data-idol-redesign
@@ -57,6 +68,7 @@ export function Modal({
           <Dialog.Popup
             {...popupProps}
             id={id}
+            finalFocus={finalFocus}
             className={styles.modal}
             style={width ? { width } : undefined}
           >

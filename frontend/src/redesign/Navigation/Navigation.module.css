@@ -357,6 +357,24 @@ button.page:hover {
   background: var(--idol-accent-default);
   pointer-events: none;
 }
+/* Drawer pages mark where a dragged page will land, centred in the grid's column gap. */
+.editGrid .page {
+  position: relative;
+}
+.editGrid .insertBefore::before {
+  left: -7px;
+}
+.editGrid .insertAfter::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -7px;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--idol-accent-default);
+  pointer-events: none;
+}
 .removeTarget {
   outline: 2px dashed var(--idol-accent-default);
   outline-offset: -2px;
@@ -436,6 +454,12 @@ button.page:hover {
   }
   .pageGrid {
     gap: 8px;
+  }
+  .editGrid .insertBefore::before {
+    left: -5px;
+  }
+  .editGrid .insertAfter::after {
+    right: -5px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

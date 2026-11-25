@@ -2,6 +2,12 @@
 .textarea:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+  user-select: none;
+}
+/* A disabled value can't be edited, so don't paint a selection highlight on it. Chrome ignores
+   user-select inside textareas, hence the transparent ::selection too. */
+.textarea:disabled::selection {
+  background: transparent;
 }
 
 .inputFrame {

@@ -112,6 +112,20 @@
   gap: 12px;
   min-width: 0;
 }
+.eventTags {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+}
+.eventTags:empty {
+  display: none;
+}
+/* Neutral, so it reads as context next to the colored Internal/External pills. */
+span.currentPeriod.currentPeriod {
+  background: var(--idol-bg-dimmer);
+  color: var(--idol-fg-dimmer);
+}
 .eventText {
   display: flex;
   flex-direction: column;

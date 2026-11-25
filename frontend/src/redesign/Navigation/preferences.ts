@@ -23,3 +23,17 @@ export function parseNavigation(value: string | null, allowed: readonly string[]
 
 export const compactNavigationLabel = (id: string, label: string): string =>
   ({ '/forms/teamEventCredits': 'TEC', '/forms/devPortfolio': 'Portfolio' })[id] ?? label;
+
+/** Where the drawer's page order is stored, next to the navbar's own key. */
+export const drawerOrderKey = (storageKey: string): string => `${storageKey}:drawer`;
+
+/**
+ * The drawer's page order: saved pages first, in their saved order, then any page not saved yet
+ * (new permissions, new routes) in its default position.
+ */
+export function parseDrawerOrder(value: unknown, allowed: readonly string[]): string[] {
+  const saved = Array.isArray(value)
+    ? Array.from(new Set(value.filter((id): id is string => allowed.includes(id))))
+    : [];
+  return [...saved, ...allowed.filter((id) => !saved.includes(id))];
+}

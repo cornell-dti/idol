@@ -209,10 +209,37 @@
 .empty p {
   color: var(--idol-fg-dimmer);
 }
-.skeleton {
-  min-height: 220px;
-  border: 1px solid var(--idol-stroke-black);
-  border-radius: 16px;
+.skeletonCopy {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+}
+.skeletonDate,
+.skeletonAction,
+.skeletonLabel,
+.skeletonName,
+.skeletonMessage {
+  display: block;
+  height: 14px;
+  border-radius: 4px;
+}
+.skeletonDate {
+  width: min(40vw, 180px);
+}
+.skeletonAction {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+}
+.skeletonLabel {
+  width: 44px;
+  height: 12px;
+}
+.skeletonName {
+  width: min(75%, 120px);
+}
+.skeletonMessage {
+  width: 65%;
 }
 @media (max-width: 640px) {
   .page {

@@ -128,9 +128,30 @@ export default function ShoutoutsPage(): JSX.Element {
       );
     if (!items)
       return (
+        // Mirrors ShoutoutCard (and the admin shoutouts skeleton): date, action, To/From, message.
         <div className={styles.skeletonList} role="status" aria-label="Loading shoutouts">
-          {[0, 1, 2, 3].map((key) => (
-            <div key={key} className={`${styles.skeleton} idol-skeleton`} aria-hidden="true" />
+          {[0, 1, 2].map((key) => (
+            <Card
+              key={key}
+              aria-hidden="true"
+              header={<span className={`${styles.skeletonDate} idol-skeleton`} />}
+              action={<span className={`${styles.skeletonAction} idol-skeleton`} />}
+            >
+              <div className={styles.details}>
+                <div className={styles.people}>
+                  {[0, 1].map((column) => (
+                    <div key={column} className={styles.skeletonCopy}>
+                      <span className={`${styles.skeletonLabel} idol-skeleton`} />
+                      <span className={`${styles.skeletonName} idol-skeleton`} />
+                    </div>
+                  ))}
+                </div>
+                <div className={styles.skeletonCopy}>
+                  <span className={`${styles.skeletonLabel} idol-skeleton`} />
+                  <span className={`${styles.skeletonMessage} idol-skeleton`} />
+                </div>
+              </div>
+            </Card>
           ))}
         </div>
       );

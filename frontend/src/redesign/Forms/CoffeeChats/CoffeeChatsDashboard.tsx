@@ -17,7 +17,8 @@ const CoffeeChatsDashboard = ({
   setApprovedChats,
   bingoBoard,
   resetState,
-  userInfo
+  userInfo,
+  onSelectSuggestion
 }: {
   approvedChats: CoffeeChat[];
   pendingChats: CoffeeChat[];
@@ -29,6 +30,7 @@ const CoffeeChatsDashboard = ({
   bingoBoard: string[][];
   resetState: () => void;
   userInfo: IdolMember;
+  onSelectSuggestion: (netid: string, category: string) => (() => void) | null;
 }): JSX.Element => {
   const [open, setOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState<CoffeeChat | undefined>(undefined);
@@ -134,11 +136,15 @@ const CoffeeChatsDashboard = ({
       </header>
 
       <div className={styles.container}>
-        <strong>
-          {blackout
-            ? '🎉 Congratulations! You have achieved a blackout! 🎉'
-            : `Bingo Count: ${bingoCount}`}
-        </strong>
+        {isChatLoading ? (
+          <span className={`${styles.bingoCountSkeleton} idol-skeleton`} aria-hidden="true" />
+        ) : (
+          <strong>
+            {blackout
+              ? '🎉 Congratulations! You have achieved a blackout! 🎉'
+              : `Bingo Count: ${bingoCount}`}
+          </strong>
+        )}
         <CoffeeChatsBingoBoard
           approvedChats={approvedChats}
           pendingChats={pendingChats}
@@ -159,6 +165,7 @@ const CoffeeChatsDashboard = ({
         userInfo={userInfo}
         submittedChats={[...pendingChats, ...approvedChats]}
         approvedArchivedChats={[...approvedArchivedChats]}
+        onSelectSuggestion={onSelectSuggestion}
       />
 
       <section className={styles.historySection} aria-labelledby="coffee-chat-history">
