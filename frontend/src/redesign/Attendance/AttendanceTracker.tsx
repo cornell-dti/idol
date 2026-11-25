@@ -306,19 +306,22 @@ export function AttendanceTracker(): JSX.Element {
     setSemesterDates((all) => ({
       ...all,
       [semester]: (all[semester] ?? [])
-        .map((date) =>
-          date.id === dateTarget
-            ? {
-                ...date,
-                date: dateDraft,
-                status: (dateCancelled
-                  ? 'cancelled'
-                  : date.status === 'cancelled'
-                    ? 'scheduled'
-                    : date.status) as AttendanceEventStatus
-              }
-            : date
-        )
+        .map((date) => {
+          if (date.id !== dateTarget) return date;
+
+          let status: AttendanceEventStatus = date.status;
+          if (dateCancelled) {
+            status = 'cancelled';
+          } else if (date.status === 'cancelled') {
+            status = 'scheduled';
+          }
+
+          return {
+            ...date,
+            date: dateDraft,
+            status
+          };
+        })
         .sort((a, b) => a.date.localeCompare(b.date))
     }));
     setDateTarget(null);
