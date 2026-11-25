@@ -126,6 +126,12 @@ const navCardItems: readonly NavigationCardItem[] = [
     link: '/admin/reimbursement',
     icon: WalletIcon,
     adminOnly: true
+  },
+  {
+    header: 'Attendance Tracker',
+    description: 'Track member attendance across all-hands.',
+    link: '/admin/attendance',
+    adminOnly: true
   }
 ];
 

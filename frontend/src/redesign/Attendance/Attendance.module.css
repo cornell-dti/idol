@@ -1,0 +1,613 @@
+.page {
+  min-height: 100%;
+  padding: 56px 32px 36px;
+  color: var(--idol-fg-default);
+}
+
+.page h1 {
+  font: var(--idol-type-heading-1);
+  letter-spacing: var(--idol-type-heading-1-tracking);
+}
+
+.pageHeader,
+.memberHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: 1104px;
+  margin: 0 auto 48px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.toolbar > *:first-child {
+  width: 254px;
+}
+
+.statisticsCard,
+.overviewCard,
+.openAttendanceCard,
+.memberGrid {
+  width: 100%;
+  max-width: 768px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.attendanceSummary {
+  width: 100%;
+  max-width: 768px;
+  margin: 0 auto 48px;
+}
+
+.attendanceSummary.hasActiveSession {
+  display: grid;
+  grid-template-columns: minmax(240px, 278px) minmax(0, 1fr);
+  gap: 32px;
+  max-width: none;
+}
+
+.activeSessionCard {
+  box-sizing: border-box;
+  min-height: 136px;
+  padding: 12px 16px;
+  border: 1px solid color-mix(in srgb, var(--idol-success-default) 24%, var(--idol-stroke-black));
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--idol-success-default) 10%, var(--idol-bg-default));
+  box-shadow: var(--idol-shadow-surface);
+  color: var(--idol-success-default);
+}
+
+.activeSessionHeading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: var(--idol-type-body-default);
+}
+
+.activeSessionDot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.activeSessionCode {
+  margin-top: 12px;
+  padding: 7px 12px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 6px;
+  background: var(--idol-bg-default);
+  color: var(--idol-fg-default);
+  font-size: 24px;
+  line-height: 32px;
+  text-align: center;
+}
+
+.activeSessionLabel {
+  margin-top: 4px;
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-body-default);
+  text-align: center;
+}
+
+.adminPage .pageHeader,
+.adminPage .attendanceSummary,
+.adminPage .statisticsCard,
+.adminPage .overviewCard {
+  width: 100%;
+  max-width: none;
+}
+
+.statisticsCard {
+  flex-direction: row;
+  margin-bottom: 0;
+}
+
+.statisticsCard > div:last-child {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat strong {
+  font: var(--idol-type-heading-2);
+  letter-spacing: var(--idol-type-heading-2-tracking);
+  font-weight: 400;
+}
+
+.stat span,
+.dateDetail,
+.memberCell span,
+.memberStats span,
+.historyList,
+.checkInFooter,
+.suggestions > span,
+.memberSummary span {
+  color: var(--idol-fg-dimmer);
+}
+
+.overviewCard {
+  margin-bottom: 36px;
+}
+
+.overviewActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.overviewActions > *:first-child {
+  width: 254px;
+}
+
+.overviewActions > *:nth-child(2) {
+  width: 160px;
+}
+
+.tableScroller {
+  overflow-x: auto;
+  margin: -16px;
+}
+
+.emptyDatesState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  gap: 8px;
+  padding: 32px 16px;
+  color: var(--idol-fg-dimmer);
+  text-align: center;
+}
+
+.emptyDatesState strong {
+  color: var(--idol-fg-default);
+  font: var(--idol-type-heading-4);
+  letter-spacing: var(--idol-type-heading-4-tracking);
+}
+
+.emptyDatesState span {
+  font: var(--idol-type-body-default);
+}
+
+.table {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font: var(--idol-type-body-default);
+}
+
+.table th,
+.table td {
+  height: 72px;
+  padding: 12px 16px;
+  border-right: 1px solid var(--idol-stroke-black);
+  border-bottom: 1px solid var(--idol-stroke-black);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table th:first-child,
+.table td:first-child {
+  width: 200px;
+  text-align: left;
+}
+
+.table th:nth-child(2),
+.table td:nth-child(2) {
+  width: 112px;
+}
+
+.table th:last-child,
+.table td:last-child {
+  border-right: 0;
+}
+
+.table tbody tr:last-child th,
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table thead th {
+  height: 50px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-weight: 400;
+}
+
+.table tbody th,
+.table tbody td {
+  height: 56px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.dateHeading {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dateDetail {
+  display: block;
+  margin-top: 4px;
+  font: var(--idol-type-body-small);
+}
+
+.dateHeaderContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dateEditButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  border: 0;
+  background: transparent;
+  color: var(--idol-fg-default);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.dateHeaderCell:hover .dateEditButton,
+.dateEditButton:focus-visible {
+  opacity: 1;
+}
+
+.dateEditButton:focus-visible {
+  border-radius: 4px;
+  outline: 2px solid var(--idol-accent-default);
+  outline-offset: 2px;
+}
+
+.editDateButton {
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--idol-fg-default);
+  cursor: pointer;
+}
+
+.memberCell {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  text-align: left !important;
+}
+
+.memberCell strong {
+  font: var(--idol-type-heading-4);
+  letter-spacing: var(--idol-type-heading-4-tracking);
+}
+
+.attendanceCellContainer {
+  padding: 0 !important;
+}
+
+.attendanceCell {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 56px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--idol-success-default);
+  cursor: pointer;
+}
+
+.attendanceStatus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editAttendanceButton {
+  position: absolute;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--idol-bg-default);
+  color: var(--idol-fg-default);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+  opacity: 0;
+  transform: translateX(4px);
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease;
+}
+
+.attendanceCell:hover .editAttendanceButton,
+.attendanceCell:focus-visible .editAttendanceButton {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.attendanceCell:hover,
+.attendanceCell:focus-visible {
+  background: var(--idol-bg-dimmer);
+  outline: 2px solid var(--idol-stroke-white);
+  outline-offset: 1px;
+}
+
+.attendanceCell.absentCell {
+  color: var(--idol-danger-default);
+}
+
+.futureCell {
+  color: var(--idol-fg-dimmer);
+}
+
+.modalFields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.compactModal {
+  min-height: 0;
+  gap: 15px;
+}
+
+.editDateModal {
+  gap: 15px;
+}
+
+.startAttendanceModal {
+  gap: 15px;
+}
+
+.cancelAllHandsField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cancelAllHandsLabel {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  color: var(--idol-danger-default);
+  font: var(--idol-type-label-default);
+  letter-spacing: var(--idol-type-label-default-tracking);
+  cursor: pointer;
+}
+
+.cancelAllHandsField p {
+  margin: 0;
+  color: var(--idol-fg-dimmer);
+  font: var(--idol-type-body-default);
+}
+
+.suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.suggestionList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.memberSummary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 68px;
+  padding: 12px;
+  border: 1px solid var(--idol-stroke-black);
+  border-radius: 6px;
+  background: var(--idol-bg-dimmer);
+}
+
+.memberSummary > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.memberSummary strong {
+  font: var(--idol-type-heading-4);
+  letter-spacing: var(--idol-type-heading-4-tracking);
+}
+
+.memberHeader {
+  display: block;
+  max-width: 768px;
+  margin-bottom: 48px;
+}
+
+.memberHeader > *:last-child {
+  width: 254px;
+  margin-top: 16px;
+}
+
+.memberPage {
+  padding-top: 32px;
+}
+
+.openAttendanceCard {
+  width: min(100%, 768px);
+  padding: 0 3px 3px;
+  background: #e5f5f0;
+  border-color: rgba(0, 153, 102, 0.2);
+  margin-bottom: 48px;
+}
+
+.openAttendanceHeader {
+  min-height: 35px;
+  padding: 8px 12px 5px;
+}
+
+.openAttendanceBody {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid rgba(0, 153, 102, 0.2);
+  border-radius: 12px;
+  background: var(--idol-bg-default);
+}
+
+.checkInFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.memberGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.semesterCard {
+  align-self: start;
+}
+
+.memberStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.memberStats div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.memberStats strong {
+  font: var(--idol-type-heading-2);
+  letter-spacing: var(--idol-type-heading-2-tracking);
+  font-weight: 400;
+}
+
+.historyList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.historyList li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--idol-stroke-black);
+}
+
+.historyList li:first-child {
+  padding-top: 0;
+}
+
+.historyList li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.historyList .present {
+  color: var(--idol-success-default);
+}
+
+.historyList .absent {
+  color: var(--idol-danger-default);
+}
+
+@media (max-width: 900px) {
+  .pageHeader,
+  .memberHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .overviewCard :global(.cardHeader) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .overviewActions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: 32px 16px 24px;
+  }
+
+  .statisticsCard > div:last-child,
+  .memberGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statisticsCard {
+    flex-direction: column;
+  }
+
+  .statisticsCard > div:last-child {
+    gap: 20px;
+  }
+
+  .toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .toolbar > *:first-child,
+  .memberHeader > *:last-child,
+  .overviewActions > *:first-child,
+  .overviewActions > *:nth-child(2) {
+    width: 100%;
+  }
+
+  .checkInFooter,
+  .memberSummary {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
