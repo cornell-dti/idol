@@ -309,10 +309,11 @@ export function AttendanceTracker(): JSX.Element {
         .map((date) => {
           if (date.id !== dateTarget) return date;
 
-          let status: AttendanceEventStatus = date.status;
+          const { status: currentStatus } = date;
+          let status: AttendanceEventStatus = currentStatus;
           if (dateCancelled) {
             status = 'cancelled';
-          } else if (date.status === 'cancelled') {
+          } else if (currentStatus === 'cancelled') {
             status = 'scheduled';
           }
 
